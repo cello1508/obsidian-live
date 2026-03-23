@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skills do CEO da YCombinator — Claude Code</title>
+
+  <!-- Meta Pixel -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1199614378426776');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1199614378426776&ev=PageView&noscript=1"/></noscript>
+
+  <!-- Supabase JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #000000;
+      color: #FFFFFF;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 24px;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 20px;
+      border: 1px solid #333333;
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 400;
+      color: #888888;
+      letter-spacing: 0.5px;
+      margin-bottom: 40px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(36px, 7vw, 72px);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      max-width: 800px;
+      margin-bottom: 24px;
+    }
+
+    h1 span {
+      display: block;
+      color: #888888;
+      font-weight: 400;
+      font-size: 0.5em;
+      letter-spacing: -0.01em;
+      margin-top: 12px;
+    }
+
+    .subtitle {
+      font-size: clamp(16px, 2.5vw, 20px);
+      color: #888888;
+      max-width: 560px;
+      line-height: 1.6;
+      margin-bottom: 48px;
+      font-weight: 300;
+    }
+
+    /* Buttons */
+    .cta-group {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 36px;
+      border-radius: 14px;
+      font-size: 17px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background: #FFFFFF;
+      color: #000000;
+      box-shadow: 0 0 40px rgba(255,255,255,0.1);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 60px rgba(255,255,255,0.15);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #FFFFFF;
+      border: 1px solid #333333;
+    }
+
+    .btn-secondary:hover {
+      border-color: #666666;
+      transform: translateY(-2px);
+    }
+
+    .btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Stats */
+    .stats {
+      display: flex;
+      gap: 48px;
+      margin-top: 64px;
+      padding-top: 48px;
+      border-top: 1px solid #1a1a1a;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: #888888;
+      margin-top: 4px;
+      font-weight: 400;
+    }
+
+    /* Section: Agents */
+    .section {
+      padding: 100px 24px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 700;
+      text-align: center;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+
+    .section-sub {
+      text-align: center;
+      color: #888888;
+      font-size: 18px;
+      font-weight: 300;
+      margin-bottom: 64px;
+    }
+
+    .agents-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .agent-card {
+      background: #0a0a0a;
+      border: 1px solid #1a1a1a;
+      border-radius: 14px;
+      padding: 28px 24px;
+      text-align: center;
+      transition: border-color 0.25s ease;
+    }
+
+    .agent-card:hover {
+      border-color: #333333;
+    }
+
+    .agent-icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+      display: block;
+      filter: grayscale(1) brightness(1.5);
+    }
+
+    .agent-name {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .agent-desc {
+      font-size: 13px;
+      color: #888888;
+      line-height: 1.4;
+    }
+
+    /* Lead Form */
+    .lead-section {
+      padding: 100px 24px;
+      text-align: center;
+      border-top: 1px solid #111111;
+    }
+
+    .lead-container {
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .lead-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 40px;
+    }
+
+    .lead-form input {
+      background: #0a0a0a;
+      border: 1px solid #222222;
+      border-radius: 12px;
+      padding: 16px 20px;
+      font-size: 16px;
+      color: #FFFFFF;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .lead-form input::placeholder {
+      color: #555555;
+    }
+
+    .lead-form input:focus {
+      border-color: #444444;
+    }
+
+    .btn-submit {
+      background: #FFFFFF;
+      color: #000000;
+      padding: 18px 36px;
+      border-radius: 14px;
+      font-size: 17px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.25s ease;
+      margin-top: 8px;
+      box-shadow: 0 0 40px rgba(255,255,255,0.08);
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 60px rgba(255,255,255,0.15);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .form-msg {
+      margin-top: 16px;
+      font-size: 14px;
+      min-height: 20px;
+    }
+
+    .form-msg.success { color: #4ade80; }
+    .form-msg.error { color: #f87171; }
+
+/* Footer */
+    .footer {
+      text-align: center;
+      padding: 48px 24px;
+      color: #333333;
+      font-size: 13px;
+      border-top: 1px solid #111111;
+    }
+
+    .footer a {
+      color: #888888;
+      text-decoration: none;
+    }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      .stats { flex-direction: column; gap: 24px; }
+      .agents-grid { grid-template-columns: 1fr 1fr; }
+      .cta-group { width: 100%; }
+      .btn { width: 100%; justify-content: center; }
+      .btn-submit { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="badge">Open Source</div>
+    <h1>
+      20 Agentes de IA
+      <span>do CEO da YCombinator. No seu Claude Code.</span>
+    </h1>
+    <p class="subtitle">
+      Garry Tan abriu o repositorio completo que ele usa para codar 10-20 mil linhas por dia.
+      Instala em 30 segundos.
+    </p>
+
+    <div class="cta-group">
+      <a href="https://github.com/garry-gstack/gstack-skills" target="_blank" class="btn btn-primary" onclick="fbq('track','Lead',{content_name:'github_repo'})">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        Acessar Repositorio
+      </a>
+      <a href="#lead" class="btn btn-secondary">
+        Receber o link por email
+      </a>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-number">28</div>
+        <div class="stat-label">Skills</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">20+</div>
+        <div class="stat-label">Agentes de IA</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">30s</div>
+        <div class="stat-label">Para instalar</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Agents -->
+  <section class="section">
+    <h2 class="section-title">Um time inteiro de IA</h2>
+    <p class="section-sub">Cada agente com uma funcao especifica</p>
+
+    <div class="agents-grid">
+      <div class="agent-card">
+        <span class="agent-icon">C</span>
+        <div class="agent-name">CEO Review</div>
+        <div class="agent-desc">Pensa grande, desafia premissas, expande escopo</div>
+      </div>
+      <div class="agent-card">
+        <span class="agent-icon">E</span>
+        <div class="agent-name">Eng Manager</div>
+        <div class="agent-desc">Arquitetura, data flow, edge cases, performance</div>
+      </div>
+      <div class="agent-card">
+        <span class="agent-icon">D</span>
+        <div class="agent-name">Designer</div>
+        <div class="agent-desc">Visual QA, spacing, hierarquia, polish</div>
+      </div>
+      <div class="agent-card">
+        <span class="agent-icon">S</span>
+        <div class="agent-name">Security</div>
+        <div class="agent-desc">OWASP, supply chain, threat modeling</div>
+      </div>
+      <div class="agent-card">
+        <span class="agent-icon">Q</span>
+        <div class="agent-name">QA Testing</div>
+        <div class="agent-desc">Abre o browser, clica, encontra bugs, faz fix</div>
+      </div>
+      <div class="agent-card">
+        <span class="agent-icon">R</span>
+        <div class="agent-name">Review</div>
+        <div class="agent-desc">Code review pre-merge automatico</div>
+      </div>
+      <div class="agent-card">
+        <span class="agent-icon">B</span>
+        <div class="agent-name">Browse</div>
+        <div class="agent-desc">Browser headless para testar qualquer site</div>
+      </div>
+      <div class="agent-card">
+        <span class="agent-icon">P</span>
+        <div class="agent-name">Ship</div>
+        <div class="agent-desc">Testes, PR, changelog, deploy automatico</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lead Capture -->
+  <section class="lead-section" id="lead">
+    <div class="lead-container">
+      <h2 class="section-title">Receba o link do repositorio</h2>
+      <p class="section-sub">Deixa seu contato que te envio tudo direto</p>
+
+      <form class="lead-form" id="leadForm" onsubmit="return handleSubmit(event)">
+        <input type="email" name="email" placeholder="Seu melhor email" required>
+        <input type="text" name="whatsapp" placeholder="WhatsApp (com DDD)" inputmode="tel">
+        <input type="text" name="instagram" placeholder="Seu @ do Instagram">
+        <button type="submit" class="btn-submit" id="submitBtn">Quero receber</button>
+      </form>
+      <p class="form-msg" id="formMsg"></p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>@celoia &middot; Marcelo Anders</p>
+  </footer>
+
+  <script>
+    const SUPABASE_URL = 'https://kzarkxwdvbridhsvgatn.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt6YXJreHdkdmJyaWRoc3ZnYXRuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyOTk4OTYsImV4cCI6MjA4OTg3NTg5Nn0.xT_CmYGpRIPBUJxqv02SV74PBTWkJda10rE_WtIxKWc';
+
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function handleSubmit(e) {
+      e.preventDefault();
+      const form = e.target;
+      const btn = document.getElementById('submitBtn');
+      const msg = document.getElementById('formMsg');
+
+      btn.disabled = true;
+      btn.textContent = 'Enviando...';
+      msg.textContent = '';
+      msg.className = 'form-msg';
+
+      const data = {
+        email: form.email.value.trim(),
+        whatsapp: form.whatsapp.value.trim() || null,
+        instagram: form.instagram.value.trim().replace(/^@/, '') || null,
+        source: 'garrytan-landing'
+      };
+
+      const { error } = await supabase.from('leads').insert([data]);
+
+      if (error) {
+        msg.textContent = 'Erro ao salvar. Tente novamente.';
+        msg.className = 'form-msg error';
+        btn.disabled = false;
+        btn.textContent = 'Quero receber';
+        console.error('Supabase error:', error);
+        return;
+      }
+
+      // Meta Pixel - Lead event
+      if (typeof fbq === 'function') {
+        fbq('track', 'Lead', { content_name: 'garrytan-landing' });
+      }
+
+      msg.textContent = 'Pronto! Voce vai receber tudo em breve.';
+      msg.className = 'form-msg success';
+      btn.textContent = 'Enviado';
+      form.reset();
+    }
+  </script>
+
+</body>
+</html>
