@@ -406,10 +406,14 @@
         fbq('track', 'Lead', { content_name: 'live-obsidian' });
       }
 
-      msg.textContent = 'Pronto! Voce vai receber o link da live em breve.';
+      msg.textContent = 'Pronto! Redirecionando para o grupo...';
       msg.className = 'form-msg success';
       btn.textContent = 'Inscrito!';
       form.reset();
+
+      setTimeout(function() {
+        window.location.href = 'https://chat.whatsapp.com/C2lriBaXu2nKuNaLtthl8O?mode=gi_t';
+      }, 1500);
     }
   </script>
 

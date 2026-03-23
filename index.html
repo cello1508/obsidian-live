@@ -486,10 +486,14 @@
         fbq('track', 'Lead', { content_name: 'garrytan-landing' });
       }
 
-      msg.textContent = 'Pronto! Voce vai receber tudo em breve.';
+      msg.textContent = 'Pronto! Redirecionando para o repositorio...';
       msg.className = 'form-msg success';
       btn.textContent = 'Enviado';
       form.reset();
+
+      setTimeout(function() {
+        window.location.href = 'https://github.com/garrytan/gstack';
+      }, 1500);
     }
   </script>
 
