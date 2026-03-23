@@ -450,7 +450,7 @@
     const SUPABASE_URL = 'https://kzarkxwdvbridhsvgatn.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt6YXJreHdkdmJyaWRoc3ZnYXRuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyOTk4OTYsImV4cCI6MjA4OTg3NTg5Nn0.xT_CmYGpRIPBUJxqv02SV74PBTWkJda10rE_WtIxKWc';
 
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     async function handleSubmit(e) {
       e.preventDefault();
@@ -470,7 +470,7 @@
         source: 'garrytan-landing'
       };
 
-      const { error } = await supabase.from('leads').insert([data]);
+      const { error } = await sb.from('leads').insert([data]);
 
       if (error) {
         msg.textContent = 'Erro ao salvar. Tente novamente.';
