@@ -312,86 +312,7 @@
     .form-msg.success { color: #4ade80; }
     .form-msg.error { color: #f87171; }
 
-    /* Live Section */
-    .live-section {
-      background: linear-gradient(180deg, #000000 0%, #0a0a0a 50%, #000000 100%);
-      padding: 100px 24px;
-      text-align: center;
-    }
-
-    .live-container {
-      max-width: 680px;
-      margin: 0 auto;
-    }
-
-    .live-date {
-      display: inline-block;
-      padding: 10px 24px;
-      border: 1px solid #333333;
-      border-radius: 100px;
-      font-size: 15px;
-      color: #FFFFFF;
-      font-weight: 600;
-      margin-bottom: 32px;
-      letter-spacing: 0.5px;
-    }
-
-    .live-title {
-      font-size: clamp(28px, 5vw, 52px);
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      line-height: 1.1;
-      margin-bottom: 20px;
-    }
-
-    .live-desc {
-      color: #888888;
-      font-size: 18px;
-      line-height: 1.6;
-      font-weight: 300;
-      margin-bottom: 16px;
-    }
-
-    .live-topics {
-      list-style: none;
-      margin: 32px auto 48px;
-      max-width: 400px;
-      text-align: left;
-    }
-
-    .live-topics li {
-      padding: 10px 0;
-      border-bottom: 1px solid #1a1a1a;
-      color: #cccccc;
-      font-size: 15px;
-      font-weight: 400;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .live-topics li::before {
-      content: '';
-      width: 6px;
-      height: 6px;
-      background: #FFFFFF;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-
-    .btn-live {
-      background: #FFFFFF;
-      color: #000000;
-      padding: 18px 48px;
-      font-size: 18px;
-      box-shadow: 0 0 60px rgba(255,255,255,0.08);
-    }
-
-    .btn-live:hover {
-      box-shadow: 0 0 80px rgba(255,255,255,0.15);
-    }
-
-    /* Footer */
+/* Footer */
     .footer {
       text-align: center;
       padding: 48px 24px;
@@ -435,7 +356,7 @@
         Acessar Repositorio
       </a>
       <a href="#lead" class="btn btn-secondary">
-        Receber o link + convite da Live
+        Receber o link por email
       </a>
     </div>
 
@@ -507,7 +428,7 @@
   <!-- Lead Capture -->
   <section class="lead-section" id="lead">
     <div class="lead-container">
-      <h2 class="section-title">Receba o repositorio + convite da Live</h2>
+      <h2 class="section-title">Receba o link do repositorio</h2>
       <p class="section-sub">Deixa seu contato que te envio tudo direto</p>
 
       <form class="lead-form" id="leadForm" onsubmit="return handleSubmit(event)">
@@ -517,31 +438,6 @@
         <button type="submit" class="btn-submit" id="submitBtn">Quero receber</button>
       </form>
       <p class="form-msg" id="formMsg"></p>
-    </div>
-  </section>
-
-  <!-- Live -->
-  <section class="live-section" id="live">
-    <div class="live-container">
-      <div class="live-date">Quinta-feira, 27 de Marco</div>
-      <h2 class="live-title">
-        Obsidian + Claude Code
-      </h2>
-      <p class="live-desc">
-        Como organizar sua empresa, projetos, reunioes e vida inteira dentro do Obsidian com inteligencia artificial.
-      </p>
-
-      <ul class="live-topics">
-        <li>Vault completo com IA integrada</li>
-        <li>Processar reunioes automaticamente</li>
-        <li>Deals, pessoas e empresas organizados</li>
-        <li>Claude Code como segundo cerebro</li>
-        <li>Setup ao vivo — saia da live com tudo rodando</li>
-      </ul>
-
-      <a href="#lead" class="btn btn-live">
-        Quero participar da Live
-      </a>
     </div>
   </section>
 
