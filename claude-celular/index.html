@@ -226,7 +226,7 @@
       border-radius: 50%;
     }
 
-    /* Video wrapper with blur overlay */
+    /* Video wrapper */
     .video-wrapper {
       position: relative;
       width: 100%;
@@ -253,29 +253,42 @@
       border: none;
     }
 
-    /* Blur overlay + gate */
-    .video-overlay {
+    /* Locked state: blurred thumbnail + gate */
+    .video-locked {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #0a0a0a;
+      border: 1px solid #1a1a1a;
+    }
+
+    .video-locked .thumb-bg {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      background: rgba(0,0,0,0.6);
-      border-radius: 16px;
+      background-image: url('https://img.youtube.com/vi/PYR56ZNO-ws/maxresdefault.jpg');
+      background-size: cover;
+      background-position: center;
+      filter: blur(25px) brightness(0.4);
+      transform: scale(1.1);
+    }
+
+    .video-locked .gate-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      z-index: 10;
+      z-index: 2;
       padding: 24px;
-      transition: opacity 0.5s ease;
-    }
-
-    .video-overlay.hidden {
-      opacity: 0;
-      pointer-events: none;
     }
 
     .lock-icon {
@@ -576,33 +589,29 @@
       <div class="pill"><span class="pill-dot"></span> Controla pelo celular</div>
     </div>
 
-    <!-- Video with blur overlay -->
+    <!-- Video: locked (blurred thumb + form) / unlocked (iframe) -->
     <div class="video-wrapper">
-      <div class="video-embed">
-        <iframe
-          src="https://www.youtube.com/embed/PYR56ZNO-ws?si=8lheXCNM310lNuqd&controls=0&modestbranding=1&rel=0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allowfullscreen
-          id="ytPlayer"
-        ></iframe>
-      </div>
+      <!-- LOCKED: thumbnail borrada + form por cima -->
+      <div class="video-locked" id="videoLocked">
+        <div class="thumb-bg"></div>
+        <div class="gate-content">
+          <div class="lock-icon">
+            <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2z"/></svg>
+          </div>
+          <div class="gate-title">Desbloquear tutorial</div>
+          <div class="gate-sub">Coloca seu email pra assistir</div>
 
-      <!-- Overlay com form -->
-      <div class="video-overlay" id="videoOverlay">
-        <div class="lock-icon">
-          <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2z"/></svg>
+          <form class="gate-form" id="gateForm" onsubmit="return handleUnlock(event)">
+            <input type="email" name="email" placeholder="Seu melhor email" required>
+            <input type="text" name="whatsapp" placeholder="WhatsApp (com DDD)" inputmode="tel">
+            <button type="submit" class="btn-unlock" id="unlockBtn">Desbloquear tutorial</button>
+          </form>
+          <p class="form-msg" id="formMsg"></p>
         </div>
-        <div class="gate-title">Desbloquear tutorial</div>
-        <div class="gate-sub">Coloca seu email pra assistir</div>
-
-        <form class="gate-form" id="gateForm" onsubmit="return handleUnlock(event)">
-          <input type="email" name="email" placeholder="Seu melhor email" required>
-          <input type="text" name="whatsapp" placeholder="WhatsApp (com DDD)" inputmode="tel">
-          <button type="submit" class="btn-unlock" id="unlockBtn">Desbloquear tutorial</button>
-        </form>
-        <p class="form-msg" id="formMsg"></p>
       </div>
+
+      <!-- UNLOCKED: iframe real (inserido via JS) -->
+      <div class="video-embed" id="videoEmbed" style="display:none;"></div>
     </div>
 
     <!-- After unlock: WhatsApp button -->
@@ -732,17 +741,16 @@
     }
 
     function unlock() {
-      var overlay = document.getElementById('videoOverlay');
-      overlay.classList.add('hidden');
+      // Hide locked state
+      document.getElementById('videoLocked').style.display = 'none';
 
-      var actions = document.getElementById('unlockedActions');
-      actions.classList.add('visible');
+      // Show real video
+      var embed = document.getElementById('videoEmbed');
+      embed.style.display = 'block';
+      embed.innerHTML = '<iframe src="https://www.youtube.com/embed/PYR56ZNO-ws?si=8lheXCNM310lNuqd&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
 
-      var player = document.getElementById('ytPlayer');
-      var src = player.src.replace('controls=0', 'controls=1').replace('modestbranding=1', 'modestbranding=0');
-      if (player.src !== src) {
-        player.src = src;
-      }
+      // Show WhatsApp button
+      document.getElementById('unlockedActions').classList.add('visible');
     }
   </script>
 
