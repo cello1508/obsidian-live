@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Controle seu PC pelo celular — Claude Code</title>
+
+  <!-- Meta Pixel -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1199614378426776');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1199614378426776&ev=PageView&noscript=1"/></noscript>
+
+  <!-- Supabase JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #000000;
+      color: #FFFFFF;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 24px;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 24px;
+      border: 1px solid #333333;
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #FFFFFF;
+      letter-spacing: 0.5px;
+      margin-bottom: 40px;
+      text-transform: uppercase;
+    }
+
+    .badge::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: #ff3b30;
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    h1 {
+      font-size: clamp(32px, 7vw, 64px);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      max-width: 740px;
+      margin-bottom: 24px;
+    }
+
+    h1 span {
+      display: block;
+      color: #888888;
+      font-weight: 400;
+      font-size: 0.5em;
+      letter-spacing: -0.01em;
+      margin-top: 12px;
+    }
+
+    .subtitle {
+      font-size: clamp(16px, 2.5vw, 20px);
+      color: #888888;
+      max-width: 520px;
+      line-height: 1.6;
+      margin-bottom: 48px;
+      font-weight: 300;
+    }
+
+    /* Features */
+    .features {
+      display: flex;
+      gap: 32px;
+      margin-bottom: 48px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .feature {
+      text-align: center;
+    }
+
+    .feature-icon {
+      font-size: 28px;
+      margin-bottom: 8px;
+      display: block;
+      filter: grayscale(1) brightness(1.5);
+    }
+
+    .feature-text {
+      font-size: 14px;
+      color: #888888;
+    }
+
+    /* Gate */
+    .gate-container {
+      max-width: 420px;
+      width: 100%;
+    }
+
+    .gate-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .gate-sub {
+      font-size: 14px;
+      color: #888888;
+      margin-bottom: 24px;
+    }
+
+    .gate-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .gate-form input {
+      background: #0a0a0a;
+      border: 1px solid #222222;
+      border-radius: 12px;
+      padding: 16px 20px;
+      font-size: 16px;
+      color: #FFFFFF;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .gate-form input::placeholder {
+      color: #555555;
+    }
+
+    .gate-form input:focus {
+      border-color: #444444;
+    }
+
+    .btn-unlock {
+      background: #FFFFFF;
+      color: #000000;
+      padding: 18px 36px;
+      border-radius: 14px;
+      font-size: 17px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.25s ease;
+      margin-top: 8px;
+      box-shadow: 0 0 40px rgba(255,255,255,0.08);
+    }
+
+    .btn-unlock:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 60px rgba(255,255,255,0.15);
+    }
+
+    .btn-unlock:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .form-msg {
+      margin-top: 16px;
+      font-size: 14px;
+      min-height: 20px;
+    }
+
+    .form-msg.success { color: #4ade80; }
+    .form-msg.error { color: #f87171; }
+
+    /* Video Section (hidden until unlocked) */
+    .video-section {
+      display: none;
+      padding: 80px 24px;
+      text-align: center;
+      border-top: 1px solid #111111;
+    }
+
+    .video-section.visible {
+      display: block;
+    }
+
+    .video-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .video-placeholder {
+      background: #0a0a0a;
+      border: 1px solid #1a1a1a;
+      border-radius: 16px;
+      padding: 60px 24px;
+      margin-top: 32px;
+    }
+
+    .video-placeholder p {
+      color: #888888;
+      font-size: 16px;
+    }
+
+    .section-title {
+      font-size: clamp(24px, 4vw, 40px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+
+    .section-sub {
+      color: #888888;
+      font-size: 16px;
+      font-weight: 300;
+    }
+
+    /* What you'll learn */
+    .learn-section {
+      padding: 80px 24px;
+      border-top: 1px solid #111111;
+    }
+
+    .learn-container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .learn-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 48px;
+    }
+
+    .learn-card {
+      background: #0a0a0a;
+      border: 1px solid #1a1a1a;
+      border-radius: 14px;
+      padding: 28px 24px;
+      transition: border-color 0.25s ease;
+    }
+
+    .learn-card:hover {
+      border-color: #333333;
+    }
+
+    .learn-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .learn-desc {
+      font-size: 14px;
+      color: #888888;
+      line-height: 1.5;
+    }
+
+    /* Stats */
+    .stats {
+      display: flex;
+      gap: 48px;
+      margin-bottom: 48px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid #1a1a1a;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: #888888;
+      margin-top: 4px;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 48px 24px;
+      color: #333333;
+      font-size: 13px;
+      border-top: 1px solid #111111;
+    }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      .features { flex-direction: column; gap: 16px; }
+      .stats { flex-direction: column; gap: 24px; }
+      .learn-grid { grid-template-columns: 1fr; }
+      .gate-form { max-width: 100%; }
+      .btn-unlock { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="badge">Novo — lancou hoje</div>
+
+    <h1>
+      Controle seu PC pelo celular
+      <span>com Claude Code. Sem tocar no teclado.</span>
+    </h1>
+
+    <p class="subtitle">
+      A Anthropic acabou de lancar o computer use no Claude.
+      Direto do celular voce manda mensagem e o Claude mexe no seu computador.
+    </p>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-number">10min</div>
+        <div class="stat-label">Tutorial completo</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Gratuito</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">0</div>
+        <div class="stat-label">Codigo necessario</div>
+      </div>
+    </div>
+
+    <!-- Gate Form -->
+    <div class="gate-container" id="gate">
+      <div class="gate-title">Desbloquear tutorial</div>
+      <div class="gate-sub">Coloca seu email pra acessar o video completo</div>
+
+      <form class="gate-form" id="gateForm" onsubmit="return handleUnlock(event)">
+        <input type="email" name="email" placeholder="Seu melhor email" required>
+        <input type="text" name="whatsapp" placeholder="WhatsApp (com DDD)" inputmode="tel">
+        <input type="text" name="instagram" placeholder="Seu @ do Instagram">
+        <button type="submit" class="btn-unlock" id="unlockBtn">Desbloquear tutorial</button>
+      </form>
+      <p class="form-msg" id="formMsg"></p>
+    </div>
+  </section>
+
+  <!-- What you'll learn -->
+  <section class="learn-section">
+    <div class="learn-container">
+      <h2 class="section-title" style="text-align:center;">O que voce vai aprender</h2>
+
+      <div class="learn-grid">
+        <div class="learn-card">
+          <div class="learn-title">Configurar do zero</div>
+          <div class="learn-desc">Setup completo do Claude com computer use na sua maquina em minutos</div>
+        </div>
+        <div class="learn-card">
+          <div class="learn-title">Controlar pelo celular</div>
+          <div class="learn-desc">Mande comandos do celular e o Claude executa no seu PC — WhatsApp, email, qualquer app</div>
+        </div>
+        <div class="learn-card">
+          <div class="learn-title">Abrir apps e navegar</div>
+          <div class="learn-desc">O Claude abre Chrome, WhatsApp, email e navega sozinho — clica, digita e envia</div>
+        </div>
+        <div class="learn-card">
+          <div class="learn-title">Automatizar tarefas</div>
+          <div class="learn-desc">Reservar salao, mandar email, responder mensagens — tudo com um comando de texto</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Video (hidden until unlocked) -->
+  <section class="video-section" id="videoSection">
+    <div class="video-container">
+      <h2 class="section-title">Tutorial completo</h2>
+      <p class="section-sub">Assista e configure na sua maquina agora</p>
+
+      <div class="video-placeholder" id="videoEmbed">
+        <p>Carregando video...</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>@celoia &middot; Marcelo Anders</p>
+  </footer>
+
+  <script>
+    const SUPABASE_URL = 'https://kzarkxwdvbridhsvgatn.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt6YXJreHdkdmJyaWRoc3ZnYXRuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyOTk4OTYsImV4cCI6MjA4OTg3NTg5Nn0.xT_CmYGpRIPBUJxqv02SV74PBTWkJda10rE_WtIxKWc';
+
+    const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // Check if already unlocked
+    if (localStorage.getItem('tutorial-celular-unlocked')) {
+      showVideo();
+    }
+
+    async function handleUnlock(e) {
+      e.preventDefault();
+      const form = e.target;
+      const btn = document.getElementById('unlockBtn');
+      const msg = document.getElementById('formMsg');
+
+      btn.disabled = true;
+      btn.textContent = 'Desbloqueando...';
+      msg.textContent = '';
+      msg.className = 'form-msg';
+
+      const data = {
+        email: form.email.value.trim(),
+        whatsapp: form.whatsapp.value.trim() || null,
+        instagram: form.instagram.value.trim().replace(/^@/, '') || null,
+        source: 'tutorial-celular'
+      };
+
+      const { error } = await sb.from('leads').insert([data]);
+
+      if (error) {
+        msg.textContent = 'Erro ao salvar. Tente novamente.';
+        msg.className = 'form-msg error';
+        btn.disabled = false;
+        btn.textContent = 'Desbloquear tutorial';
+        console.error('Supabase error:', error);
+        return;
+      }
+
+      if (typeof fbq === 'function') {
+        fbq('track', 'Lead', { content_name: 'tutorial-celular' });
+      }
+
+      localStorage.setItem('tutorial-celular-unlocked', '1');
+
+      msg.textContent = 'Desbloqueado! Descendo pro tutorial...';
+      msg.className = 'form-msg success';
+      btn.textContent = 'Desbloqueado';
+
+      setTimeout(function() {
+        showVideo();
+        document.getElementById('videoSection').scrollIntoView({ behavior: 'smooth' });
+      }, 1000);
+    }
+
+    function showVideo() {
+      var section = document.getElementById('videoSection');
+      section.classList.add('visible');
+
+      // Hide gate if already unlocked on load
+      var gate = document.getElementById('gate');
+      if (localStorage.getItem('tutorial-celular-unlocked')) {
+        gate.innerHTML = '<div class="gate-title" style="color:#4ade80;">Tutorial desbloqueado</div><div class="gate-sub">Role pra baixo pra assistir</div>';
+      }
+
+      // Replace placeholder with actual video embed
+      // TODO: Substituir pela URL do video quando estiver pronto
+      var embed = document.getElementById('videoEmbed');
+      embed.innerHTML = '<p style="color:#888;font-size:18px;padding:40px;">Video sera adicionado aqui quando estiver pronto.<br><br>Enquanto isso, voce ja esta na lista e vai receber o link por email.</p>';
+    }
+  </script>
+
+</body>
+</html>
