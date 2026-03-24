@@ -25,7 +25,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -43,8 +43,20 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
-      padding: 60px 24px 40px;
+      padding: 48px 24px 40px;
       position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(255,255,255,0.02) 0%, transparent 70%);
+      pointer-events: none;
     }
 
     .badge {
@@ -52,11 +64,11 @@
       align-items: center;
       gap: 8px;
       padding: 10px 24px;
-      border: 1px solid #333333;
+      border: 1px solid #333;
       border-radius: 100px;
       font-size: 13px;
       font-weight: 600;
-      color: #FFFFFF;
+      color: #fff;
       letter-spacing: 0.5px;
       margin-bottom: 32px;
       text-transform: uppercase;
@@ -77,30 +89,141 @@
     }
 
     h1 {
-      font-size: clamp(32px, 7vw, 56px);
+      font-size: clamp(28px, 6vw, 48px);
       font-weight: 700;
-      line-height: 1.05;
+      line-height: 1.2;
       letter-spacing: -0.03em;
-      max-width: 700px;
+      max-width: 640px;
+      margin-bottom: 40px;
+      color: #fff;
+    }
+
+    /* Tweet card incorporado */
+    .tweet-card {
+      background: #fff;
+      color: #0f1419;
+      border-radius: 16px;
+      padding: 24px;
+      max-width: 520px;
+      width: 100%;
+      text-align: left;
+      margin-bottom: 40px;
+      position: relative;
+    }
+
+    .tweet-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
       margin-bottom: 16px;
     }
 
-    h1 span {
-      display: block;
-      color: #888888;
-      font-weight: 400;
-      font-size: 0.5em;
-      letter-spacing: -0.01em;
-      margin-top: 12px;
+    .tweet-avatar {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #f8a435, #e8772e);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
     }
 
-    .subtitle {
-      font-size: clamp(15px, 2.5vw, 18px);
-      color: #888888;
-      max-width: 500px;
-      line-height: 1.6;
+    .tweet-avatar svg {
+      width: 28px;
+      height: 28px;
+      fill: #fff;
+    }
+
+    .tweet-author {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tweet-name {
+      font-weight: 700;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .tweet-verified {
+      width: 18px;
+      height: 18px;
+      background: #1d9bf0;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tweet-verified svg {
+      width: 12px;
+      height: 12px;
+      fill: #fff;
+    }
+
+    .tweet-handle {
+      color: #536471;
+      font-size: 14px;
+    }
+
+    .tweet-body {
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .tweet-body strong {
+      font-weight: 700;
+    }
+
+    .tweet-metrics {
+      display: flex;
+      gap: 24px;
+      padding-top: 16px;
+      border-top: 1px solid #eff3f4;
+    }
+
+    .tweet-metric {
+      font-size: 14px;
+      color: #536471;
+    }
+
+    .tweet-metric strong {
+      color: #0f1419;
+      font-weight: 700;
+    }
+
+    /* Feature pills */
+    .feature-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      max-width: 600px;
       margin-bottom: 48px;
-      font-weight: 300;
+    }
+
+    .pill {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 100px;
+      padding: 10px 20px;
+      font-size: 14px;
+      color: #aaa;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pill-dot {
+      width: 6px;
+      height: 6px;
+      background: #4ade80;
+      border-radius: 50%;
     }
 
     /* Video wrapper with blur overlay */
@@ -118,6 +241,7 @@
       border-radius: 16px;
       overflow: hidden;
       background: #0a0a0a;
+      border: 1px solid #1a1a1a;
     }
 
     .video-embed iframe {
@@ -179,7 +303,7 @@
 
     .gate-sub {
       font-size: 14px;
-      color: #888888;
+      color: #888;
       margin-bottom: 24px;
     }
 
@@ -197,23 +321,18 @@
       border-radius: 12px;
       padding: 14px 18px;
       font-size: 15px;
-      color: #FFFFFF;
+      color: #fff;
       font-family: inherit;
       outline: none;
       transition: border-color 0.2s ease;
     }
 
-    .gate-form input::placeholder {
-      color: #555555;
-    }
-
-    .gate-form input:focus {
-      border-color: #555;
-    }
+    .gate-form input::placeholder { color: #555; }
+    .gate-form input:focus { border-color: #555; }
 
     .btn-unlock {
-      background: #FFFFFF;
-      color: #000000;
+      background: #fff;
+      color: #000;
       padding: 16px 32px;
       border-radius: 14px;
       font-size: 16px;
@@ -237,12 +356,7 @@
       transform: none;
     }
 
-    .form-msg {
-      margin-top: 12px;
-      font-size: 14px;
-      min-height: 20px;
-    }
-
+    .form-msg { margin-top: 12px; font-size: 14px; min-height: 20px; }
     .form-msg.success { color: #4ade80; }
     .form-msg.error { color: #f87171; }
 
@@ -253,16 +367,14 @@
       margin-top: 32px;
     }
 
-    .unlocked-actions.visible {
-      display: block;
-    }
+    .unlocked-actions.visible { display: block; }
 
     .btn-whatsapp {
       display: inline-flex;
       align-items: center;
       gap: 10px;
       background: #25D366;
-      color: #FFFFFF;
+      color: #fff;
       padding: 16px 36px;
       border-radius: 14px;
       font-size: 17px;
@@ -277,11 +389,7 @@
       box-shadow: 0 0 60px rgba(37,211,102,0.25);
     }
 
-    .btn-whatsapp svg {
-      width: 22px;
-      height: 22px;
-      fill: currentColor;
-    }
+    .btn-whatsapp svg { width: 22px; height: 22px; fill: currentColor; }
 
     .unlocked-sub {
       color: #888;
@@ -290,13 +398,13 @@
       font-weight: 300;
     }
 
-    /* What you'll learn */
-    .learn-section {
+    /* Demo section */
+    .demo-section {
       padding: 80px 24px;
-      border-top: 1px solid #111111;
+      border-top: 1px solid #111;
     }
 
-    .learn-container {
+    .demo-container {
       max-width: 680px;
       margin: 0 auto;
     }
@@ -307,6 +415,69 @@
       letter-spacing: -0.03em;
       margin-bottom: 16px;
       text-align: center;
+    }
+
+    .section-sub {
+      text-align: center;
+      color: #888;
+      font-size: 16px;
+      font-weight: 300;
+      margin-bottom: 48px;
+    }
+
+    .demo-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .demo-card {
+      background: #0a0a0a;
+      border: 1px solid #1a1a1a;
+      border-radius: 14px;
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      transition: border-color 0.25s ease;
+    }
+
+    .demo-card:hover { border-color: #333; }
+
+    .demo-cmd {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 14px;
+      color: #4ade80;
+      font-family: 'Courier New', monospace;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .demo-result {
+      font-size: 15px;
+      color: #888;
+      line-height: 1.4;
+    }
+
+    .demo-result strong {
+      color: #fff;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    /* What you'll learn */
+    .learn-section {
+      padding: 80px 24px;
+      border-top: 1px solid #111;
+    }
+
+    .learn-container {
+      max-width: 680px;
+      margin: 0 auto;
     }
 
     .learn-grid {
@@ -324,9 +495,7 @@
       transition: border-color 0.25s ease;
     }
 
-    .learn-card:hover {
-      border-color: #333333;
-    }
+    .learn-card:hover { border-color: #333; }
 
     .learn-title {
       font-size: 16px;
@@ -336,7 +505,7 @@
 
     .learn-desc {
       font-size: 14px;
-      color: #888888;
+      color: #888;
       line-height: 1.5;
     }
 
@@ -344,9 +513,9 @@
     .footer {
       text-align: center;
       padding: 48px 24px;
-      color: #333333;
+      color: #333;
       font-size: 13px;
-      border-top: 1px solid #111111;
+      border-top: 1px solid #111;
     }
 
     /* Mobile */
@@ -355,6 +524,10 @@
       .gate-form { max-width: 100%; }
       .btn-unlock { width: 100%; }
       .btn-whatsapp { width: 100%; justify-content: center; }
+      .demo-card { flex-direction: column; align-items: flex-start; }
+      .demo-cmd { white-space: normal; }
+      .feature-pills { gap: 8px; }
+      .pill { font-size: 13px; padding: 8px 16px; }
     }
   </style>
 </head>
@@ -362,19 +535,46 @@
 
   <!-- Hero -->
   <section class="hero">
-    <div class="badge">Novo — lancou hoje</div>
+    <div class="badge">Novidade — lancou agora</div>
 
-    <img src="/claude-celular/tweet-claude.png" alt="Tweet oficial do Claude anunciando computer use" style="max-width:520px;width:100%;border-radius:14px;border:1px solid #222;margin-bottom:36px;">
+    <h1>A Anthropic acabou de lancar o computer use. O Claude agora mexe no seu computador direto do celular.</h1>
 
-    <h1>
-      O Claude agora mexe no seu PC
-      <span>Mande um texto do celular. Ele faz o resto.</span>
-    </h1>
+    <!-- Tweet card incorporado -->
+    <div class="tweet-card">
+      <div class="tweet-header">
+        <div class="tweet-avatar">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <div class="tweet-author">
+          <div class="tweet-name">
+            Claude
+            <span class="tweet-verified"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></span>
+          </div>
+          <div class="tweet-handle">@claudeai</div>
+        </div>
+      </div>
+      <div class="tweet-body">
+        You can now enable <strong>Claude</strong> to use your computer to complete tasks.<br><br>
+        It opens your apps, navigates your browser, fills in spreadsheets — anything you'd do sitting at your desk.<br><br>
+        Research preview in <strong>Claude Cowork</strong> and <strong>Claude Code</strong>, macOS only.
+      </div>
+      <div class="tweet-metrics">
+        <div class="tweet-metric"><strong>1.6K</strong> replies</div>
+        <div class="tweet-metric"><strong>6.3K</strong> reposts</div>
+        <div class="tweet-metric"><strong>41K</strong> likes</div>
+        <div class="tweet-metric"><strong>11M</strong> views</div>
+      </div>
+    </div>
 
-    <p class="subtitle">
-      A Anthropic acabou de lancar o computer use.
-      O Claude abre apps, navega o browser, preenche planilhas — tudo que voce faria sentado no computador. Tutorial de 10 min pra configurar.
-    </p>
+    <!-- Feature pills -->
+    <div class="feature-pills">
+      <div class="pill"><span class="pill-dot"></span> Abre apps</div>
+      <div class="pill"><span class="pill-dot"></span> Navega o browser</div>
+      <div class="pill"><span class="pill-dot"></span> Digita e clica</div>
+      <div class="pill"><span class="pill-dot"></span> Envia emails</div>
+      <div class="pill"><span class="pill-dot"></span> Preenche planilhas</div>
+      <div class="pill"><span class="pill-dot"></span> Controla pelo celular</div>
+    </div>
 
     <!-- Video with blur overlay -->
     <div class="video-wrapper">
@@ -416,6 +616,38 @@
     </div>
   </section>
 
+  <!-- Demo examples -->
+  <section class="demo-section">
+    <div class="demo-container">
+      <h2 class="section-title">O que eu testei ao vivo</h2>
+      <p class="section-sub">Mandei do celular e o Claude executou no meu Mac</p>
+
+      <div class="demo-grid">
+        <div class="demo-card">
+          <div class="demo-cmd">> WhatsApp</div>
+          <div class="demo-result">
+            <strong>"Manda oi pro Davi no WhatsApp"</strong>
+            Abriu o app, procurou o contato, digitou e enviou a mensagem sozinho
+          </div>
+        </div>
+        <div class="demo-card">
+          <div class="demo-cmd">> Email</div>
+          <div class="demo-result">
+            <strong>"Reserva o salao pro dia 28"</strong>
+            Pegou o email no WhatsApp, abriu o Chrome, escreveu o email e enviou
+          </div>
+        </div>
+        <div class="demo-card">
+          <div class="demo-cmd">> Multi-step</div>
+          <div class="demo-result">
+            <strong>Tarefas com varios passos</strong>
+            O Claude navega entre apps, copia informacoes e completa fluxos inteiros
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- What you'll learn -->
   <section class="learn-section">
     <div class="learn-container">
@@ -453,7 +685,6 @@
 
     const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // Check if already unlocked
     if (localStorage.getItem('tutorial-celular-unlocked')) {
       unlock();
     }
@@ -503,15 +734,12 @@
     }
 
     function unlock() {
-      // Remove blur overlay
       var overlay = document.getElementById('videoOverlay');
       overlay.classList.add('hidden');
 
-      // Show WhatsApp button
       var actions = document.getElementById('unlockedActions');
       actions.classList.add('visible');
 
-      // Enable video controls
       var player = document.getElementById('ytPlayer');
       var src = player.src.replace('controls=0', 'controls=1').replace('modestbranding=1', 'modestbranding=0');
       if (player.src !== src) {
