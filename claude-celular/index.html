@@ -39,26 +39,12 @@
 
     /* Hero */
     .hero {
-      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
       text-align: center;
-      padding: 60px 24px;
+      padding: 60px 24px 40px;
       position: relative;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
-      pointer-events: none;
     }
 
     .badge {
@@ -72,7 +58,7 @@
       font-weight: 600;
       color: #FFFFFF;
       letter-spacing: 0.5px;
-      margin-bottom: 40px;
+      margin-bottom: 32px;
       text-transform: uppercase;
     }
 
@@ -91,12 +77,12 @@
     }
 
     h1 {
-      font-size: clamp(32px, 7vw, 64px);
+      font-size: clamp(32px, 7vw, 56px);
       font-weight: 700;
       line-height: 1.05;
       letter-spacing: -0.03em;
-      max-width: 740px;
-      margin-bottom: 24px;
+      max-width: 700px;
+      margin-bottom: 16px;
     }
 
     h1 span {
@@ -109,49 +95,86 @@
     }
 
     .subtitle {
-      font-size: clamp(16px, 2.5vw, 20px);
+      font-size: clamp(15px, 2.5vw, 18px);
       color: #888888;
-      max-width: 520px;
+      max-width: 500px;
       line-height: 1.6;
       margin-bottom: 48px;
       font-weight: 300;
     }
 
-    /* Features */
-    .features {
-      display: flex;
-      gap: 32px;
-      margin-bottom: 48px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .feature {
-      text-align: center;
-    }
-
-    .feature-icon {
-      font-size: 28px;
-      margin-bottom: 8px;
-      display: block;
-      filter: grayscale(1) brightness(1.5);
-    }
-
-    .feature-text {
-      font-size: 14px;
-      color: #888888;
-    }
-
-    /* Gate */
-    .gate-container {
-      max-width: 420px;
+    /* Video wrapper with blur overlay */
+    .video-wrapper {
+      position: relative;
       width: 100%;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .video-embed {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #0a0a0a;
+    }
+
+    .video-embed iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Blur overlay + gate */
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(0,0,0,0.6);
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      padding: 24px;
+      transition: opacity 0.5s ease;
+    }
+
+    .video-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .lock-icon {
+      width: 48px;
+      height: 48px;
+      border: 2px solid #444;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .lock-icon svg {
+      width: 22px;
+      height: 22px;
+      fill: #888;
     }
 
     .gate-title {
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 600;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .gate-sub {
@@ -163,15 +186,17 @@
     .gate-form {
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
+      width: 100%;
+      max-width: 340px;
     }
 
     .gate-form input {
-      background: #0a0a0a;
-      border: 1px solid #222222;
+      background: rgba(10,10,10,0.8);
+      border: 1px solid #333;
       border-radius: 12px;
-      padding: 16px 20px;
-      font-size: 16px;
+      padding: 14px 18px;
+      font-size: 15px;
       color: #FFFFFF;
       font-family: inherit;
       outline: none;
@@ -183,22 +208,22 @@
     }
 
     .gate-form input:focus {
-      border-color: #444444;
+      border-color: #555;
     }
 
     .btn-unlock {
       background: #FFFFFF;
       color: #000000;
-      padding: 18px 36px;
+      padding: 16px 32px;
       border-radius: 14px;
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 600;
       border: none;
       cursor: pointer;
       font-family: inherit;
       transition: all 0.25s ease;
-      margin-top: 8px;
-      box-shadow: 0 0 40px rgba(255,255,255,0.08);
+      margin-top: 4px;
+      box-shadow: 0 0 40px rgba(255,255,255,0.1);
     }
 
     .btn-unlock:hover {
@@ -213,7 +238,7 @@
     }
 
     .form-msg {
-      margin-top: 16px;
+      margin-top: 12px;
       font-size: 14px;
       min-height: 20px;
     }
@@ -221,46 +246,47 @@
     .form-msg.success { color: #4ade80; }
     .form-msg.error { color: #f87171; }
 
-    /* Video Section (hidden until unlocked) */
-    .video-section {
+    /* Unlocked state */
+    .unlocked-actions {
       display: none;
-      padding: 80px 24px;
       text-align: center;
-      border-top: 1px solid #111111;
-    }
-
-    .video-section.visible {
-      display: block;
-    }
-
-    .video-container {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .video-placeholder {
-      background: #0a0a0a;
-      border: 1px solid #1a1a1a;
-      border-radius: 16px;
-      padding: 60px 24px;
       margin-top: 32px;
     }
 
-    .video-placeholder p {
-      color: #888888;
-      font-size: 16px;
+    .unlocked-actions.visible {
+      display: block;
     }
 
-    .section-title {
-      font-size: clamp(24px, 4vw, 40px);
-      font-weight: 700;
-      letter-spacing: -0.03em;
+    .btn-whatsapp {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #25D366;
+      color: #FFFFFF;
+      padding: 16px 36px;
+      border-radius: 14px;
+      font-size: 17px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 40px rgba(37,211,102,0.15);
+    }
+
+    .btn-whatsapp:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 60px rgba(37,211,102,0.25);
+    }
+
+    .btn-whatsapp svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+
+    .unlocked-sub {
+      color: #888;
+      font-size: 14px;
       margin-bottom: 16px;
-    }
-
-    .section-sub {
-      color: #888888;
-      font-size: 16px;
       font-weight: 300;
     }
 
@@ -273,6 +299,14 @@
     .learn-container {
       max-width: 680px;
       margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: clamp(24px, 4vw, 40px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+      text-align: center;
     }
 
     .learn-grid {
@@ -306,31 +340,6 @@
       line-height: 1.5;
     }
 
-    /* Stats */
-    .stats {
-      display: flex;
-      gap: 48px;
-      margin-bottom: 48px;
-      padding-bottom: 48px;
-      border-bottom: 1px solid #1a1a1a;
-    }
-
-    .stat {
-      text-align: center;
-    }
-
-    .stat-number {
-      font-size: 36px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
-
-    .stat-label {
-      font-size: 13px;
-      color: #888888;
-      margin-top: 4px;
-    }
-
     /* Footer */
     .footer {
       text-align: center;
@@ -342,11 +351,10 @@
 
     /* Mobile */
     @media (max-width: 600px) {
-      .features { flex-direction: column; gap: 16px; }
-      .stats { flex-direction: column; gap: 24px; }
       .learn-grid { grid-template-columns: 1fr; }
       .gate-form { max-width: 100%; }
       .btn-unlock { width: 100%; }
+      .btn-whatsapp { width: 100%; justify-content: center; }
     }
   </style>
 </head>
@@ -366,40 +374,49 @@
       Direto do celular voce manda mensagem e o Claude mexe no seu computador.
     </p>
 
-    <div class="stats">
-      <div class="stat">
-        <div class="stat-number">10min</div>
-        <div class="stat-label">Tutorial completo</div>
+    <!-- Video with blur overlay -->
+    <div class="video-wrapper">
+      <div class="video-embed">
+        <iframe
+          src="https://www.youtube.com/embed/dQw4w9WgXcQ?controls=0&modestbranding=1&rel=0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          id="ytPlayer"
+        ></iframe>
       </div>
-      <div class="stat">
-        <div class="stat-number">100%</div>
-        <div class="stat-label">Gratuito</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number">0</div>
-        <div class="stat-label">Codigo necessario</div>
+
+      <!-- Overlay com form -->
+      <div class="video-overlay" id="videoOverlay">
+        <div class="lock-icon">
+          <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2z"/></svg>
+        </div>
+        <div class="gate-title">Desbloquear tutorial</div>
+        <div class="gate-sub">Coloca seu email pra assistir</div>
+
+        <form class="gate-form" id="gateForm" onsubmit="return handleUnlock(event)">
+          <input type="email" name="email" placeholder="Seu melhor email" required>
+          <input type="text" name="whatsapp" placeholder="WhatsApp (com DDD)" inputmode="tel">
+          <input type="text" name="instagram" placeholder="Seu @ do Instagram">
+          <button type="submit" class="btn-unlock" id="unlockBtn">Desbloquear tutorial</button>
+        </form>
+        <p class="form-msg" id="formMsg"></p>
       </div>
     </div>
 
-    <!-- Gate Form -->
-    <div class="gate-container" id="gate">
-      <div class="gate-title">Desbloquear tutorial</div>
-      <div class="gate-sub">Coloca seu email pra acessar o video completo</div>
-
-      <form class="gate-form" id="gateForm" onsubmit="return handleUnlock(event)">
-        <input type="email" name="email" placeholder="Seu melhor email" required>
-        <input type="text" name="whatsapp" placeholder="WhatsApp (com DDD)" inputmode="tel">
-        <input type="text" name="instagram" placeholder="Seu @ do Instagram">
-        <button type="submit" class="btn-unlock" id="unlockBtn">Desbloquear tutorial</button>
-      </form>
-      <p class="form-msg" id="formMsg"></p>
+    <!-- After unlock: WhatsApp button -->
+    <div class="unlocked-actions" id="unlockedActions">
+      <p class="unlocked-sub">Quer participar das lives semanais sobre Claude Code?</p>
+      <a href="https://chat.whatsapp.com/C2lriBaXu2nKuNaLtthl8O?mode=gi_t" target="_blank" class="btn-whatsapp">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Entrar no grupo de lives
+      </a>
     </div>
   </section>
 
   <!-- What you'll learn -->
   <section class="learn-section">
     <div class="learn-container">
-      <h2 class="section-title" style="text-align:center;">O que voce vai aprender</h2>
+      <h2 class="section-title">O que voce vai aprender</h2>
 
       <div class="learn-grid">
         <div class="learn-card">
@@ -422,18 +439,6 @@
     </div>
   </section>
 
-  <!-- Video (hidden until unlocked) -->
-  <section class="video-section" id="videoSection">
-    <div class="video-container">
-      <h2 class="section-title">Tutorial completo</h2>
-      <p class="section-sub">Assista e configure na sua maquina agora</p>
-
-      <div class="video-placeholder" id="videoEmbed">
-        <p>Carregando video...</p>
-      </div>
-    </div>
-  </section>
-
   <!-- Footer -->
   <footer class="footer">
     <p>@celoia &middot; Marcelo Anders</p>
@@ -447,35 +452,35 @@
 
     // Check if already unlocked
     if (localStorage.getItem('tutorial-celular-unlocked')) {
-      showVideo();
+      unlock();
     }
 
     async function handleUnlock(e) {
       e.preventDefault();
-      const form = e.target;
-      const btn = document.getElementById('unlockBtn');
-      const msg = document.getElementById('formMsg');
+      var form = e.target;
+      var btn = document.getElementById('unlockBtn');
+      var msg = document.getElementById('formMsg');
 
       btn.disabled = true;
       btn.textContent = 'Desbloqueando...';
       msg.textContent = '';
       msg.className = 'form-msg';
 
-      const data = {
+      var data = {
         email: form.email.value.trim(),
         whatsapp: form.whatsapp.value.trim() || null,
         instagram: form.instagram.value.trim().replace(/^@/, '') || null,
         source: 'tutorial-celular'
       };
 
-      const { error } = await sb.from('leads').insert([data]);
+      var result = await sb.from('leads').insert([data]);
 
-      if (error) {
+      if (result.error) {
         msg.textContent = 'Erro ao salvar. Tente novamente.';
         msg.className = 'form-msg error';
         btn.disabled = false;
         btn.textContent = 'Desbloquear tutorial';
-        console.error('Supabase error:', error);
+        console.error('Supabase error:', result.error);
         return;
       }
 
@@ -485,30 +490,30 @@
 
       localStorage.setItem('tutorial-celular-unlocked', '1');
 
-      msg.textContent = 'Desbloqueado! Descendo pro tutorial...';
+      msg.textContent = 'Desbloqueado!';
       msg.className = 'form-msg success';
       btn.textContent = 'Desbloqueado';
 
       setTimeout(function() {
-        showVideo();
-        document.getElementById('videoSection').scrollIntoView({ behavior: 'smooth' });
-      }, 1000);
+        unlock();
+      }, 800);
     }
 
-    function showVideo() {
-      var section = document.getElementById('videoSection');
-      section.classList.add('visible');
+    function unlock() {
+      // Remove blur overlay
+      var overlay = document.getElementById('videoOverlay');
+      overlay.classList.add('hidden');
 
-      // Hide gate if already unlocked on load
-      var gate = document.getElementById('gate');
-      if (localStorage.getItem('tutorial-celular-unlocked')) {
-        gate.innerHTML = '<div class="gate-title" style="color:#4ade80;">Tutorial desbloqueado</div><div class="gate-sub">Role pra baixo pra assistir</div>';
+      // Show WhatsApp button
+      var actions = document.getElementById('unlockedActions');
+      actions.classList.add('visible');
+
+      // Enable video controls
+      var player = document.getElementById('ytPlayer');
+      var src = player.src.replace('controls=0', 'controls=1');
+      if (player.src !== src) {
+        player.src = src;
       }
-
-      // Replace placeholder with actual video embed
-      // TODO: Substituir pela URL do video quando estiver pronto
-      var embed = document.getElementById('videoEmbed');
-      embed.innerHTML = '<p style="color:#888;font-size:18px;padding:40px;">Video sera adicionado aqui quando estiver pronto.<br><br>Enquanto isso, voce ja esta na lista e vai receber o link por email.</p>';
     }
   </script>
 
