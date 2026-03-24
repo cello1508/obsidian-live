@@ -380,8 +380,9 @@
     <div class="video-wrapper">
       <div class="video-embed">
         <iframe
-          src="https://www.youtube.com/embed/dQw4w9WgXcQ?controls=0&modestbranding=1&rel=0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          src="https://www.youtube.com/embed/PYR56ZNO-ws?si=8lheXCNM310lNuqd&controls=0&modestbranding=1&rel=0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
           allowfullscreen
           id="ytPlayer"
         ></iframe>
@@ -512,7 +513,7 @@
 
       // Enable video controls
       var player = document.getElementById('ytPlayer');
-      var src = player.src.replace('controls=0', 'controls=1');
+      var src = player.src.replace('controls=0', 'controls=1').replace('modestbranding=1', 'modestbranding=0');
       if (player.src !== src) {
         player.src = src;
       }
