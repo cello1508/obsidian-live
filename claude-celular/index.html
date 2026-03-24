@@ -98,104 +98,6 @@
       color: #fff;
     }
 
-    /* Tweet card incorporado */
-    .tweet-card {
-      background: #fff;
-      color: #0f1419;
-      border-radius: 16px;
-      padding: 24px;
-      max-width: 520px;
-      width: 100%;
-      text-align: left;
-      margin-bottom: 40px;
-      position: relative;
-    }
-
-    .tweet-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .tweet-avatar {
-      width: 48px;
-      height: 48px;
-      background: linear-gradient(135deg, #f8a435, #e8772e);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .tweet-avatar svg {
-      width: 28px;
-      height: 28px;
-      fill: #fff;
-    }
-
-    .tweet-author {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .tweet-name {
-      font-weight: 700;
-      font-size: 16px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .tweet-verified {
-      width: 18px;
-      height: 18px;
-      background: #1d9bf0;
-      border-radius: 50%;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .tweet-verified svg {
-      width: 12px;
-      height: 12px;
-      fill: #fff;
-    }
-
-    .tweet-handle {
-      color: #536471;
-      font-size: 14px;
-    }
-
-    .tweet-body {
-      font-size: 16px;
-      line-height: 1.5;
-      margin-bottom: 20px;
-    }
-
-    .tweet-body strong {
-      font-weight: 700;
-    }
-
-    .tweet-metrics {
-      display: flex;
-      gap: 24px;
-      padding-top: 16px;
-      border-top: 1px solid #eff3f4;
-    }
-
-    .tweet-metric {
-      font-size: 14px;
-      color: #536471;
-    }
-
-    .tweet-metric strong {
-      color: #0f1419;
-      font-weight: 700;
-    }
-
     /* Feature pills */
     .feature-pills {
       display: flex;
@@ -257,11 +159,12 @@
     .video-locked {
       position: relative;
       width: 100%;
-      padding-bottom: 56.25%;
       border-radius: 16px;
       overflow: hidden;
       background: #0a0a0a;
       border: 1px solid #1a1a1a;
+      /* aspect-ratio keeps desktop at 16:9 but allows growth on mobile */
+      aspect-ratio: 16 / 9;
     }
 
     .video-locked .thumb-bg {
@@ -289,6 +192,24 @@
       justify-content: center;
       z-index: 2;
       padding: 24px;
+      overflow-y: auto;
+    }
+
+    /* On small screens the 16:9 box is too short for the form —
+       switch to auto height so everything is visible */
+    @media (max-width: 480px) {
+      .video-locked {
+        aspect-ratio: unset;
+        min-height: 520px;
+      }
+      .video-locked .gate-content {
+        position: relative;
+        height: auto;
+        padding: 32px 20px;
+      }
+      .video-locked .thumb-bg {
+        position: absolute;
+      }
     }
 
     .lock-icon {
@@ -552,32 +473,6 @@
 
     <h1>A Anthropic acabou de lancar o computer use. O Claude agora mexe no seu computador direto do celular.</h1>
 
-    <!-- Tweet card incorporado -->
-    <div class="tweet-card">
-      <div class="tweet-header">
-        <div class="tweet-avatar">
-          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-        </div>
-        <div class="tweet-author">
-          <div class="tweet-name">
-            Claude
-            <span class="tweet-verified"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></span>
-          </div>
-          <div class="tweet-handle">@claudeai</div>
-        </div>
-      </div>
-      <div class="tweet-body">
-        You can now enable <strong>Claude</strong> to use your computer to complete tasks.<br><br>
-        It opens your apps, navigates your browser, fills in spreadsheets — anything you'd do sitting at your desk.<br><br>
-        Research preview in <strong>Claude Cowork</strong> and <strong>Claude Code</strong>, macOS only.
-      </div>
-      <div class="tweet-metrics">
-        <div class="tweet-metric"><strong>1.6K</strong> replies</div>
-        <div class="tweet-metric"><strong>6.3K</strong> reposts</div>
-        <div class="tweet-metric"><strong>41K</strong> likes</div>
-        <div class="tweet-metric"><strong>11M</strong> views</div>
-      </div>
-    </div>
 
     <!-- Feature pills -->
     <div class="feature-pills">
